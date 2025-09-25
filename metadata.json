@@ -1,0 +1,5 @@
+{
+  "name": "Shape Shifter: Volume & Surface Area Explorer",
+  "description": "A gamified visualization tool to help students easily understand the concepts of volume and surface area for 3D shapes. Users can explore by changing dimensions or take on challenges to test their knowledge, with an AI tutor to explain concepts.",
+  "requestFramePermissions": []
+}
