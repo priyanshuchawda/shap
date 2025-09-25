@@ -1,12 +1,10 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Dimensions, GameMode, Challenge, ChallengeType } from './types';
-import { getExplanation } from './services/geminiService';
 import ShapeVisualizer from './components/ShapeVisualizer';
 import ControlPanel from './components/ControlPanel';
 import CalculationDisplay from './components/CalculationDisplay';
 import GameUI from './components/GameUI';
-import GeminiHelper from './components/GeminiHelper';
 
 const App: React.FC = () => {
   const [dimensions, setDimensions] = useState<Dimensions>({ length: 5, width: 5, height: 5 });
@@ -18,12 +16,6 @@ const App: React.FC = () => {
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [feedback, setFeedback] = useState('');
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-
-  // AI Helper State
-  const [isHelperOpen, setIsHelperOpen] = useState(false);
-  const [helperTopic, setHelperTopic] = useState<'volume' | 'surfaceArea'>('volume');
-  const [explanation, setExplanation] = useState('');
-  const [isExplanationLoading, setIsExplanationLoading] = useState(false);
 
   const { volume, surfaceArea } = useMemo(() => {
     const { length, width, height } = dimensions;
@@ -76,21 +68,6 @@ const App: React.FC = () => {
       }
     }
   }, [dimensions, challenge, mode, volume, surfaceArea, generateNewChallenge]);
-
-  const handleExplain = useCallback(async (topic: 'volume' | 'surfaceArea') => {
-    setHelperTopic(topic);
-    setIsHelperOpen(true);
-    setIsExplanationLoading(true);
-    const calculation = {
-      formula: topic === 'volume' 
-        ? `${dimensions.length} × ${dimensions.width} × ${dimensions.height}`
-        : `2 × (${dimensions.length}×${dimensions.width} + ${dimensions.length}×${dimensions.height} + ${dimensions.width}×${dimensions.height})`,
-      result: topic === 'volume' ? volume : surfaceArea,
-    };
-    const expl = await getExplanation(topic, dimensions, calculation);
-    setExplanation(expl);
-    setIsExplanationLoading(false);
-  }, [dimensions, volume, surfaceArea]);
   
   return (
     <div className="min-h-screen bg-slate-50 font-sans p-4 sm:p-6 lg:p-8">
@@ -126,18 +103,10 @@ const App: React.FC = () => {
               dimensions={dimensions}
               volume={volume}
               surfaceArea={surfaceArea}
-              onExplain={handleExplain}
             />
           </div>
         </div>
       </main>
-      <GeminiHelper
-        isOpen={isHelperOpen}
-        onClose={() => setIsHelperOpen(false)}
-        topic={helperTopic}
-        explanation={explanation}
-        isLoading={isExplanationLoading}
-      />
     </div>
   );
 };
