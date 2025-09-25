@@ -28,15 +28,13 @@ const ShapeVisualizer: React.FC<ShapeVisualizerProps> = ({ dimensions, isUnfolde
     const commonStyles: React.CSSProperties = {
       ...baseFaceStyle,
       transformOrigin: 'center center',
-      width: `${scaledL}rem`,
-      height: `${scaledH}rem`,
       background: 'rgba(59, 130, 246, 0.7)',
     };
     
     if (isUnfolded) {
       switch (face) {
-        case 'front': return { ...commonStyles, transform: `translateY(${scaledW / 2}rem)` };
-        case 'back': return { ...commonStyles, transform: `translateY(-${scaledW / 2 + scaledH}rem)` };
+        case 'front': return { ...commonStyles, width: `${scaledL}rem`, height: `${scaledH}rem`, transform: `translateY(${scaledW / 2}rem)` };
+        case 'back': return { ...commonStyles, width: `${scaledL}rem`, height: `${scaledH}rem`, transform: `translateY(-${scaledW / 2 + scaledH}rem)` };
         case 'top': return { ...commonStyles, width: `${scaledL}rem`, height: `${scaledW}rem`, background: 'rgba(96, 165, 250, 0.7)', transform: `translateY(-${scaledW / 2}rem) rotateX(90deg)`};
         case 'bottom': return { ...commonStyles, width: `${scaledL}rem`, height: `${scaledW}rem`, background: 'rgba(37, 99, 235, 0.7)', transform: `translateY(${scaledW / 2 + scaledH}rem) rotateX(-90deg)`};
         case 'left': return { ...commonStyles, width: `${scaledW}rem`, height: `${scaledH}rem`, background: 'rgba(147, 197, 253, 0.7)', transform: `translateX(-${scaledW}rem) translateY(${scaledW / 2}rem)`};
@@ -46,8 +44,8 @@ const ShapeVisualizer: React.FC<ShapeVisualizerProps> = ({ dimensions, isUnfolde
     }
 
     switch (face) {
-      case 'front': return { ...commonStyles, transform: `translateZ(${scaledW / 2}rem)` };
-      case 'back': return { ...commonStyles, transform: `rotateY(180deg) translateZ(${scaledW / 2}rem)` };
+      case 'front': return { ...commonStyles, width: `${scaledL}rem`, height: `${scaledH}rem`, transform: `translateZ(${scaledW / 2}rem)` };
+      case 'back': return { ...commonStyles, width: `${scaledL}rem`, height: `${scaledH}rem`, transform: `rotateY(180deg) translateZ(${scaledW / 2}rem)` };
       case 'left': return { ...commonStyles, width: `${scaledW}rem`, height: `${scaledH}rem`, background: 'rgba(147, 197, 253, 0.7)', transform: `rotateY(-90deg) translateZ(${scaledL / 2}rem)` };
       case 'right': return { ...commonStyles, width: `${scaledW}rem`, height: `${scaledH}rem`, background: 'rgba(147, 197, 253, 0.7)', transform: `rotateY(90deg) translateZ(${scaledL / 2}rem)` };
       case 'top': return { ...commonStyles, width: `${scaledL}rem`, height: `${scaledW}rem`, background: 'rgba(96, 165, 250, 0.7)', transform: `rotateX(90deg) translateZ(${scaledH / 2}rem)` };
